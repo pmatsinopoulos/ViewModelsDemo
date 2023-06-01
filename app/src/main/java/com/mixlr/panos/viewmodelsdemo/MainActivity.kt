@@ -13,15 +13,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-
         val btnCount = findViewById<Button>(R.id.btnCount)
         val tvCount = findViewById<TextView>(R.id.tvCount)
-        tvCount.text = viewModel.count.toString()
+
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel.count.observe(this) {
+            tvCount.text = it.toString()
+        }
 
         btnCount.setOnClickListener {
             viewModel.updateCount()
-            tvCount.text = viewModel.count.toString()
         }
     }
 }
